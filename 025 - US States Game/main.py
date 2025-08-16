@@ -9,6 +9,7 @@ screen.addshape(image)
 turtle.shape(image)
 
 states_data = pandas.read_csv("50_states.csv")
+all_states = states_data.state.tolist()
 
 #screen.update()
 guessed_correctly = []
@@ -19,7 +20,7 @@ while len(guessed_correctly) < 50:
     if answer_state == "Exit":
         break
 
-    if (answer_state in states_data.state.tolist()) and (answer_state not in guessed_correctly):
+    if (answer_state in all_states) and (answer_state not in guessed_correctly):
         t = turtle.Turtle()
         t.hideturtle()
         t.penup()
@@ -29,8 +30,7 @@ while len(guessed_correctly) < 50:
         guessed_correctly.append(answer_state)
 
 
-states_to_learn = list(set(states_data.state.tolist()) - set(guessed_correctly))
-print(states_to_learn)
-df = pandas.DataFrame(states_to_learn)
-df.to_csv("states_to_learn.csv")
+states_to_learn = [state for state in all_states if state not in guessed_correctly]
+new_data = pandas.DataFrame(states_to_learn)
+new_data.to_csv("states_to_learn.csv")
 
